@@ -1,22 +1,34 @@
 import React from "react";
 
+// React Toast
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Router
 import { Routes, Route } from "react-router-dom";
 // screen
-import LandingScreen from "./screens/LandingScreen";
-import LoginScreen from "./screens/LoginScreen";
-import DashboardScreen from "./screens/Dashboard/DashboardScreen";
+import { LandingScreen, LoginScreen, ProtectedRoute } from "./screens";
+import { SharedLayout, TaskScreen, JournalScreen } from "./screens/dashboard";
 
 export default function App() {
   return (
     <div>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="task" element={<TaskScreen />} />
+          <Route path="journal" element={<JournalScreen />} />
+        </Route>
         <Route path="/landing" element={<LandingScreen />} />
         <Route path="/login" element={<LoginScreen />} />
-        <Route path="/" element={<DashboardScreen />} />
-        <Route path="/todo" element={<h1>todo board</h1>} />
-        <Route path="/journal" element={<h1>journal board</h1>} />
       </Routes>
+      <ToastContainer position="top-center" />
     </div>
   );
 }
